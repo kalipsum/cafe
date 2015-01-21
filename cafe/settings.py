@@ -34,8 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ALLOWED_HOSTS = []
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
+
 )
 
 # Application definition
