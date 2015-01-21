@@ -24,12 +24,19 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
 ALLOWED_HOSTS = []
-TEMPLATE_DIRS = (
-
-    'C:/Users/Mary/Desktop/ENV/cafe/register/templates',
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
-
 
 # Application definition
 
@@ -88,7 +95,6 @@ EMAIL_HOST_PASSWORD = '76e6597685c89e0c6fbd326f8b595798e89410637fc4c92eacc3a62e1
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'nmyname@gmail.com'
 
-AUTH_PROFILE_MODULE = "cafe.UserProfile"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
