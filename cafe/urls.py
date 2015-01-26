@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+admin.autodiscover()
 from register.views import home
 from register.views import login
 from register.views import logout
@@ -8,8 +9,10 @@ from register.views import loggedin
 from register.views import invalid_l
 from django.views.generic import RedirectView
 import register.views
-
+from kitchen.views import menu
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = patterns('',
@@ -29,5 +32,8 @@ urlpatterns = patterns('',
     url(r'^reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
             'register.views.reset_confirm', name='auth_password_reset_confirm'),
     url(r'^reset/$', 'register.views.reset', name='reset'),
-
+    url(r'^menu/$', menu),
 )
+urlpatterns += static(settings.STATIC_URL,document_root = settings.STATIC_ROOT,)
+
+urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT,)

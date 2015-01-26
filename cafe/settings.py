@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -34,8 +35,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ALLOWED_HOSTS = []
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
 
 )
+
 
 # Application definition
 
@@ -47,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'register',
+    'kitchen'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,7 +103,19 @@ EMAIL_HOST_PASSWORD = '76e6597685c89e0c6fbd326f8b595798e89410637fc4c92eacc3a62e1
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'nmyname@gmail.com'
 
-# Static files (CSS, JavaScript, Images)
+# static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'kitchen', 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'kitchen', 'media')
+
+MEDIA_URL = '/media/'
