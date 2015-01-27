@@ -22,8 +22,8 @@ class Dish(models.Model):
     price = models.FloatField()
     image = models.ImageField()
     description = models.TextField(blank=True)
-    menu_id = models.ForeignKey(Menu)
-    category_id = models.ForeignKey(Category)
+    menu = models.ForeignKey(Menu)
+    category = models.ForeignKey(Category)
 
     def __str__(self):
         return self.name
@@ -37,8 +37,8 @@ class Ingredient(models.Model):
 
 
 class DishComponent(models.Model):
-    dish_id = models.ForeignKey(Dish)
-    ingredient_id = models.ForeignKey(Ingredient)
+    dish = models.ForeignKey(Dish)
+    ingredient = models.ForeignKey(Ingredient)
     weight = models.FloatField()
 
 
