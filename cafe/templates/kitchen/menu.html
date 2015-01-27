@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
+{% extends 'base.html' %}
+{% block content %}
     <h1>Menu</h1>
     <ul>
         {% for d in dish_list%}
-            <li>{{ d.dish_name }}..............................{{ d.price }} </li>
+            <li>{{ d.name }}..............................{{ d.price }} </li>
             <div>
                 <p>ingredients:</p>
 
             </div>
             < ................<img src="{{ d.image.url }}" style="width:128px;height:128px">
         {% endfor %}
-
     </ul>
-</body>
-</html>
+{% endblock %}

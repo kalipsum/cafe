@@ -1,3 +1,5 @@
+{% load i18n %}
+{% load url from future %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -5,8 +7,8 @@
     <title></title>
 </head>
 <body>
-    <h1>Hi {{ fullname }}</h1>
-    <p>Click <a href="/accounts/logout">here</a> to logout</p>
+    {% block content %}
 
+    {% endblock %}
 </body>
 </html>

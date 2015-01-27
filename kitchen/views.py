@@ -7,8 +7,5 @@ from django.http import HttpResponse
 
 def menu(request):
     dish_list = Dish.objects.all()
-    menu_obj = Menu.objects.all()
-    ingredient_obj = Ingredient.objects.all()
-
     return render_to_response('menu.html', {'dish_list': dish_list})
 

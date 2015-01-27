@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-<h1>Авторизация</h1>
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Авторизация</h1>
 {% if form.errors %}
 <p>Not valid Username or password</p>
 {% endif %}
@@ -20,7 +14,6 @@
 
 </form>
 <p>Forgot your password?<a href="/reset/">Reset</a></p>
+{% endblock %}
 
 
-</body>
-</html>

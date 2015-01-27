@@ -44,6 +44,12 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 )
 
+TEMPLATE_DIRS=(
+    os.path.join(BASE_DIR, 'cafe', 'templates', 'kitchen'),
+    os.path.join(BASE_DIR, 'cafe', 'templates', 'register'),
+    os.path.join(BASE_DIR, 'cafe', 'templates'),
+
+)
 
 # Application definition
 
@@ -116,6 +122,6 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'kitchen', 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'kitchen', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../public/media')
 
 MEDIA_URL = '/media/'
