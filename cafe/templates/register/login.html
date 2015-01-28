@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Авторизация</h1>
-{% if form.errors %}
-<p>Not valid Username or password</p>
-{% endif %}
+<div class="block_cont">
+    <div class="login">
+        <h1>Авторизация</h1>
+        {% if form.errors %}
+        <p>Not valid Username or password</p>
+        {% endif %}
+        <form action="/accounts/auth/" method="post"> {% csrf_token %}
+            <label for="username">User name</label>
+            <input type="text" name="username" value="" id="username">
+            <label for="password">Password</label>
+            <input type="password" name="password" value="" id="password">
+            <input type="submit" value="login">
 
-<form action="/accounts/auth/" method="post"> {% csrf_token %}
-    <label for="username">User name</label>
-    <input type="text" name="username" value="" id="username">
-    <label for="password">Password</label>
-    <input type="password" name="password" value="" id="password">
-    <input type="submit" value="login">
+        <p>Forgot your password?<a href="/reset/">Reset</a></p>
+        </form>
+        <a href="/register">Registration</a>
+    </div>
+</div>
 
-</form>
-<p>Forgot your password?<a href="/reset/">Reset</a></p>
 {% endblock %}
 
 

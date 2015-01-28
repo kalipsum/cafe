@@ -108,13 +108,16 @@ DEFAULT_FROM_EMAIL = 'nmyname@gmail.com'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'kitchen', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = (
+     os.path.join(BASE_DIR, 'cafe', 'static'),
+)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../public/media')
 

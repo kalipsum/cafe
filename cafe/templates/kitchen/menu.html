@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Menu</h1>
+
+    <div class="block_cont">
+    <h1 id="h1">Menu</h1>
     <ul>
         {% for d in dish_list%}
             <li>{{ d.name }}..............................{{ d.price }} </li>
@@ -11,4 +13,5 @@
             < ................<img src="{{ d.image.url }}" style="width:128px;height:128px">
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}
