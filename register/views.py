@@ -14,10 +14,14 @@ from django.utils import timezone
 from register.forms import RegistrationForm, LoginForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from kitchen.models import Menu, Dish
+
+
+dish_list = Dish.objects.all()
 
 
 def home(request):
-    return render_to_response('home.html')
+    return render_to_response('home.html', {'dish_list': dish_list})
 
 
 def login(request):
@@ -38,7 +42,7 @@ def auth_v(request):
 
 
 def loggedin(request):
-    return render_to_response('loggedin.html',{'fullname':request.user.username})
+    return render_to_response('loggedin.html',{'fullname':request.user.username}, {'dish_list': dish_list})
 
 
 def invalid_l(request):

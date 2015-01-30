@@ -14,8 +14,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-
+from kitchen.views import dish
 
 urlpatterns = patterns('',
     # Examples:
@@ -31,10 +30,11 @@ urlpatterns = patterns('',
     url(r'^accounts/invalid/$', invalid_l),
     url(r'^confirm/(?P<activation_key>\w+)/', register.views.confirm),
     url(r'^register/$', register.views.register, name='register'),
-    url(r'^reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-            'register.views.reset_confirm', name='auth_password_reset_confirm'),
+    url(r'^reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'register.views.reset_confirm', name='auth_password_reset_confirm'),
     url(r'^reset/$', 'register.views.reset', name='reset'),
     url(r'^menu/$', menu),
+    url(r'^dish/(?P<dish_id>\d+)/?$', dish),
+
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

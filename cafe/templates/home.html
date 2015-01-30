@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block scripts %}
+        <script type="text/javascript" src="{% static "js/menu.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="block_cont">
+        <img id="menu_images" src="{% static "images/img2.jpg" %}" style="width:820px;height:380px">
+        <input type="button" id="button1" onclick="loadPictures()">
+    </div>
+    </br>
+    </br>
+    <div class="block_cont">
+        <h1 id="h1">Dish of the day</h1>
+         <img src="{% static "images/img11.jpg" %}" style="width:800px;height:400px">
+    </div>
+{% endblock %}
+
+

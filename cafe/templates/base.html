@@ -9,26 +9,41 @@
     {% block css %}
         <link rel="stylesheet" href="{% static "css/base.css"%}">
     {% endblock %}
+    {% block scripts %}
+    {%  endblock %}
     <title></title>
 </head>
 <body>
-<div class="main">
-    <div class ="block2">
-        <ul class="navigation">
-            <li> <a href="/">Home</a></li>
-            <li><a href="/menu">Menu</a></li>
-            <li><a href="order.html">Make an order</a></li>
 
+<div class ="block2">
+<table>
+    <tr>
+        <td>
+        <ul id="nav7">
+        <li><a href="/">Home</a></li>
+        <li><a href="/menu">Menu</a>
+            <ul>
+                {% for d in dish_list%}
+                    <li><a href="{{'/dish'}}/{{ d.pk }}" >{{ d.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li><a href="order.html">Make an order</a></li>
         </ul>
-        </br>
-        <a href="/accounts/login" id="login">login</a>
-    </div>
-    <div class="block1">
-    {% block content %}
+        </td>
 
-    {% endblock %}
-    </div>
+        <td>
+            <a href="/accounts/login" id="login">login</a>
+        </td>
+    </tr>
+</table>
 </div>
+<div class="block1">
+{% block content %}
+
+{% endblock %}
+</div>
+
 
 </body>
 </html>

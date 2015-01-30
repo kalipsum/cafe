@@ -1,5 +1,5 @@
-.main{
-    background:url("../images/img.JPG") top center repeat-y;
+html {
+   background:url("../images/bamboo.jpg") top center repeat-y; min-height:800px;
 }
 .block1{
     position: relative;
@@ -8,55 +8,131 @@
     left: 20%;
 }
 .block2{
-    padding-top: 20px;
-    height:48px;
+    padding-top: 50px;
     position: relative;
-    left: 45%;
+    left: 40%;
 
 
 }
 .block_cont{
+    position:relative;
+    padding-right: 20px;
     font-style:italic;
     font-weight: bold;
     background:url("../images/green.JPG") top center repeat-y;
     width:800px;
     border:solid;
     border-color: #005426;
+    display: inline-block;
+}
+.img{
+    margin-left:20px;
+    margin-right: 20px;
+
+}
+
+#cell1{
+    width:400px;
+    font-size: 25px;
+    text-align: center;
+}
+#cell2{
+    width:500px;
+    text-align: center;
+}
+#cell3{
+    text-align: center;
 }
 #login{
     font-size: 20px;
     text-decoration: none;
-    color: #618b73;
-
-
+    color: #fffbf8;
 }
 .login{
-    height:400px;
     margin-left: 30px;
 
 }
 #h1{
     text-align: center;
 }
-.navigation {
-   list-style: none;
+
+#menu_images{
+    display:block;
+    margin-right: 10px;
 }
-.navigation li {
-   float: left;
-   margin-right: 1px;
-   font-family: Verdana, Arial, Helvetica, sans-serif;
-   font-size: 14px;
-   font-weight: bold;
+
+#nav7, #nav7 ul, #nav7 li,#nav7 li ul {
+  margin: 0;
+  padding: 0;
 }
-.navigation li a {
-   display: block;
-   padding: 15px 20px;
-   background: #5faa8b;
-   color: #3f3f3f;
-   text-decoration: none;
-   position: relative;
+#nav7, #nav7 ul {
+  background: rgb(97, 139, 115);
+
 }
-.navigation li a:hover {
-   background: #005426;
-   color: #6b6b6b;
+#nav7 {
+  position: relative;
+  display: table;
+  width: 500px;
+}
+#nav7 ul {
+  position: absolute;
+  z-index: 5;
+  display: none;
+
+}
+#nav7 li:hover ul {
+  display: block;
+}
+#nav7 li {
+  display: table-cell;
+  text-align: center;
+  width:80px;
+  height:30px;
+  border-right-color: darkseagreen;
+  border-right-style: solid;
+  font-size:23px;
+}
+#nav7 ul li {
+  display: block;
+  text-align: center;
+  width: 160px;
+
+}
+#nav7 .right {
+  direction: rtl;
+}
+#nav7 .right ul {
+  right: 0;
+}
+#nav7 .right li {
+  direction: ltr;
+}
+#nav7 a {
+  display: block;
+  padding: 3px 0;
+  color: #fff;
+  text-decoration: none;
+
+}
+
+#nav7 li:hover {
+  background: rgb(95, 170, 139);
+}
+#h2{
+    position:relative;
+    left:60%
+}
+#ingredient{
+    position:relative;
+    left:70%;
+}
+#button1{
+    position:absolute;
+    display:inline-block;
+    background:url("../images/right.ico") no-repeat;
+    border: none;
+    height:32px;
+    width:32px;
+    margin-top: -200px;
+    margin-left:90%;
 }

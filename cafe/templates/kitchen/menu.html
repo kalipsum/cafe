@@ -2,16 +2,31 @@
 {% block content %}
 
     <div class="block_cont">
-    <h1 id="h1">Menu</h1>
-    <ul>
+        </br>
+        <h1 id="h1">Menu</h1>
+        <table >
         {% for d in dish_list%}
-            <li>{{ d.name }}..............................{{ d.price }} </li>
-            <div>
-                <p>ingredients:</p>
-
-            </div>
-            < ................<img src="{{ d.image.url }}" style="width:128px;height:128px">
+            <tr>
+                <td id="cell1">
+                    <li style="list-style: none;">{{ d.name }}</li>
+                </td>
+                <td id="cell2">
+                    <img id="img" src="{{ d.image.url }}" style="width:128px;height:128px">
+                </td>
+             </tr>
+             <tr>
+                <td></td>
+                <td id="cell3">
+                    <a href="{{'/dish'}}/{{ d.pk }}" >Read more</a>
+                </td>
+             </tr>
+             <tr>
+                <td></td>
+                <td id="cell3">
+                    <p>Price: {{ d.price }}</p>
+                </td>
+             </tr>
         {% endfor %}
-    </ul>
+        </table>
     </div>
 {% endblock %}
