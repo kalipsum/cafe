@@ -17,11 +17,11 @@ from django.contrib.auth.views import password_reset, password_reset_confirm
 from kitchen.models import Menu, Dish
 
 
-dish_list = Dish.objects.all()
+menu_list = Menu.objects.all()
 
 
 def home(request):
-    return render_to_response('home.html', {'dish_list': dish_list})
+    return render_to_response('home.html', {'menu_list': menu_list})
 
 
 def login(request):

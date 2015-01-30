@@ -23,8 +23,8 @@
         <li><a href="/">Home</a></li>
         <li><a href="/menu">Menu</a>
             <ul>
-                {% for d in dish_list%}
-                    <li><a href="{{'/dish'}}/{{ d.pk }}" >{{ d.name }}</a></li>
+                {% for m in menu_list%}
+                    <li><a href="{{'/menu'}}/{{ m.pk }}" >{{ m.name }}</a></li>
                 {% endfor %}
             </ul>
         </li>

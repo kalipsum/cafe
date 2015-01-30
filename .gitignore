@@ -2,4 +2,4 @@
 *.pyc
 *.pyo
 db.sqlite3
-.public/*
+.public/media/*

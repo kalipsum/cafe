@@ -4,10 +4,11 @@ from django.db import models
 
 
 class Menu(models.Model):
+    name = models.CharField(max_length=70)
     date = models.DateTimeField()
 
     def __str__(self):
-        return 'Menu' + '/' + self.date.strftime('%m/%d/%Y')
+        return 'Menu' + ' - ' + self.name + '/' + self.date.strftime('%m/%d/%Y')
 
 
 class Category(models.Model):

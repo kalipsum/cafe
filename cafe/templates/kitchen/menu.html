@@ -3,27 +3,27 @@
 
     <div class="block_cont">
         </br>
-        <h1 id="h1">Menu</h1>
+        <h1 id="h1">{{ menu.name }}</h1>
         <table >
-        {% for d in dish_list%}
+        {% for m in menu_items%}
             <tr>
                 <td id="cell1">
-                    <li style="list-style: none;">{{ d.name }}</li>
+                    <li style="list-style: none;">{{ m.name }}</li>
                 </td>
                 <td id="cell2">
-                    <img id="img" src="{{ d.image.url }}" style="width:128px;height:128px">
+                    <img id="img" src="{{ m.image.url }}" style="width:128px;height:128px">
                 </td>
              </tr>
              <tr>
                 <td></td>
                 <td id="cell3">
-                    <a href="{{'/dish'}}/{{ d.pk }}" >Read more</a>
+                    <a href="{{'/dish'}}/{{ m.pk }}" >Read more</a>
                 </td>
              </tr>
              <tr>
                 <td></td>
                 <td id="cell3">
-                    <p>Price: {{ d.price }}</p>
+                    <p>Price: {{ m.price }}</p>
                 </td>
              </tr>
         {% endfor %}
