@@ -6,7 +6,7 @@
     <table>
         <tr>
             <td>
-                <img class="img" src="{{ dish.image.url }}" style="width:300px;height:300px"
+                <img class="img1" src="{{ dish.image.url }}">
             </td>
             <td>
                <p>{{ dish.description }}</p>
@@ -20,7 +20,5 @@
     {% endfor %}
     <h2 id="h2">Price:</h2>
     <p id="ingredient">{{ dish.price }} грн.</p>
-    </br>
-    </br>
     </div>
 {% endblock %}

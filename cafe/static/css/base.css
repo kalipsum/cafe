@@ -25,10 +25,16 @@ html {
     border-color: #005426;
     display: inline-block;
 }
-.img{
+.img1{
     margin-left:20px;
     margin-right: 20px;
+    width:300px;
+    height:300px;
+}
 
+.img2{
+    width:128px;
+    height:128px;
 }
 
 #cell1{
@@ -125,6 +131,7 @@ html {
 #ingredient{
     position:relative;
     left:70%;
+    margin-bottom:40px;
 }
 #button1{
     position:absolute;
