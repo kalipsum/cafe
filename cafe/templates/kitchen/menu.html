@@ -8,10 +8,10 @@
         {% for m in menu_items%}
             <tr>
                 <td id="cell1">
-                    <li>{{ m.name }}</li>
+                    <li style="list-style: none;">{{ m.name }}</li>
                 </td>
                 <td id="cell2">
-                    <img class="img2" src="{{ m.image.url }}">
+                    <img id="img" src="{{ m.image.url }}" style="width:128px;height:128px">
                 </td>
              </tr>
              <tr>
