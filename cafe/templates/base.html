@@ -21,14 +21,14 @@
         <td>
         <ul id="nav7">
         <li><a href="/">Home</a></li>
-        <li><a href="/menu">Menu</a>
+        <li id="item">Menu</a>
             <ul>
                 {% for m in menu_list%}
                     <li><a href="{{'/menu'}}/{{ m.pk }}" >{{ m.name }}</a></li>
                 {% endfor %}
             </ul>
         </li>
-        <li><a href="order.html">Make an order</a></li>
+        <li><a href="/dish/filter">Search</a></li>
         </ul>
         </td>
 

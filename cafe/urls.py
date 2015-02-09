@@ -14,7 +14,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from kitchen.views import menu_items,dish
+from kitchen.views import menu_items, dish, filter_dishes
 
 urlpatterns = patterns('',
     # Examples:
@@ -35,7 +35,7 @@ urlpatterns = patterns('',
     url(r'^menu/$', menu),
     url(r'^menu/(?P<menu_id>\d+)/?$', menu_items),
     url(r'^dish/(?P<dish_id>\d+)/?$', dish),
-
+    url(r'^dish/filter/?.*$', filter_dishes),
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

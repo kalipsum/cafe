@@ -24,3 +24,4 @@ function loadPictures()
     var timeoutId = setTimeout(nextImage, 5);
 }
 
+

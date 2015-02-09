@@ -1,7 +1,6 @@
 
 from django.contrib import auth
 from django.core.context_processors import csrf
-
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
@@ -42,7 +41,7 @@ def auth_v(request):
 
 
 def loggedin(request):
-    return render_to_response('loggedin.html',{'fullname':request.user.username}, {'dish_list': dish_list})
+    return render_to_response('loggedin.html',{'fullname':request.user.username})
 
 
 def invalid_l(request):
@@ -52,6 +51,7 @@ def invalid_l(request):
 def logout(request):
     auth.logout(request)
     return render_to_response('home.html')
+
 
 def register(request):
 #if request.user.is_authenticated():

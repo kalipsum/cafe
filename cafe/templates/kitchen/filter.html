@@ -1,23 +1,66 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block scripts %}
+        <script type="text/javascript" src="{% static "js/menu.js" %}"></script>
+{% endblock %}
 {% block content %}
-
     <div class="block_cont">
-     <form action="/dishes" method="post">{% csrf_token %}
+    <table>
+        <tr>
+        <td id="filter">
+     <form action="" method="get">
+        <h3>Name:</h3>
+        <input type="text" id="text1" value="{{ qn }}" name="name">
         <h3>Ingredients:</h3>
+
         {% for i in ing %}
-            <input type="checkbox" name="option3" value="a3">{{ i.name }}<Br>
+            {% if i.pk in qcomp %}
+                <input type="checkbox" name="component[]" value="{{ i.pk }}" checked="checked"/> {{ i.name }}
+            {% else %}
+                <input type="checkbox" name="component[]" value="{{ i.pk }}"/> {{ i.name }}
+            {% endif %}
+            </br>
         {% endfor %}
 
         <h3>Price:</h3>
      <table>
          <tr>
-             <td> <input type="text"> - </td>
-             <td> <input type="text"></td>
+             <td> min<input type="text" id="min" name="min" value="{{ qmin }}"> - </td>
+             <td> max<input type="text" id="max" name="max" value="{{ qmax }}"></td>
          </tr>
      </table>
-      <input type="submit" value="Search">
-
+     <input type="submit" value="Search">
      </form>
-     </div>
+
+    </td>
+    <td>
+    <table >
+        {% for m in dish_items%}
+            <tr>
+                <td id="cell1">
+                    <li style="list-style: none;">{{ m.name }}</li>
+                </td>
+                <td id="cell2">
+                    <img id="img" src="{{ m.image.url }}" style="width:128px;height:128px">
+                </td>
+             </tr>
+             <tr>
+                <td></td>
+                <td id="cell3">
+                    <a href="{{'/dish'}}/{{ m.pk }}" >Read more</a>
+                </td>
+             </tr>
+             <tr>
+                <td></td>
+                <td id="cell3">
+                    <p>Price: {{ m.price }}</p>
+                </td>
+             </tr>
+        {% endfor %}
+        </table>
+    </td>
+    </tr>
+    </table>
+    </div>
 
 {% endblock %}

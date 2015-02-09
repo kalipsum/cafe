@@ -17,6 +17,7 @@ html {
 .block_cont{
     position:relative;
     padding-right: 20px;
+    padding-left: 20px;
     font-style:italic;
     font-weight: bold;
     background:url("../images/green.JPG") top center repeat-y;
@@ -48,9 +49,23 @@ html {
     text-decoration: none;
     color: #fffbf8;
 }
+#min{
+    width:30px;
+}
+#max{
+    width:30px;
+}
 .login{
     margin-left: 30px;
 
+}
+#item{
+    color:#ffffff;
+}
+#filter{
+    border-right-style:solid ;
+    border-color: #135421;
+    vertical-align:top;
 }
 #h1{
     text-align: center;
