@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="block_cont">
+     <form action="/dishes" method="post">{% csrf_token %}
+        <h3>Ingredients:</h3>
+        {% for i in ing %}
+            <input type="checkbox" name="option3" value="a3">{{ i.name }}<Br>
+        {% endfor %}
+
+        <h3>Price:</h3>
+     <table>
+         <tr>
+             <td> <input type="text"> - </td>
+             <td> <input type="text"></td>
+         </tr>
+     </table>
+      <input type="submit" value="Search">
+
+     </form>
+     </div>
+
+{% endblock %}
