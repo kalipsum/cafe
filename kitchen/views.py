@@ -31,21 +31,29 @@ def menu_items(request, menu_id):
 
 def filter_dishes(request):
     f = Filter(request.GET)
+    ing = Ingredient.objects.all()
+    dish_items = Dish.objects.all()
+    filter_url = '/dish/filter?'
     if f.is_valid():
         name = f.cleaned_data['name']
-        components = f.cleaned_data['ingredients']
         min_value = f.cleaned_data['min']
         max_value = f.cleaned_data['max']
-        dish_items = Dish.objects.all()
         if name:
             dish_items = dish_items.filter(name__icontains=name)
+            filter_url = filter_url + 'name='+name + '&'
         if min_value:
             dish_items = dish_items.filter(price__gte=min_value)
+            filter_url = filter_url + 'min='+str(min_value) + '&'
         if max_value:
             dish_items = dish_items.filter(price__lte=max_value)
-        if components:
-            for item in components:
-                dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
-            dish_items.all()
-    return render_to_response('filter.html', {'f':f,'menu_items': dish_items})
+            filter_url = filter_url + 'max='+str(max_value) + '&'
+    qcomp=[]
+    if 'component[]' in request.GET and request.GET.getlist('component[]'):
+        components = request.GET.getlist('component[]')
+        for item in components:
+            dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
+            filter_url = filter_url + 'component[]=' + item + '&'
+            qcomp.append(int(item))
+        dish_items.all()
+    return render_to_response('filter.html', {'f': f, 'ing': ing, 'menu_items': dish_items, 'filter_url':filter_url, 'qcomp': qcomp})
 
