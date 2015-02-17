@@ -3,16 +3,6 @@
     <div class="block_cont">
     <form>
         {{ f }}
-        </br>
-        <h2>Ingredients:</h2>
-        {% for item in ing %}
-            {% if item.pk in qcomp %}
-                <a href="{{ filter_url }}component[]={{ item.pk }}"><input type="checkbox" checked="checked">{{ item.name }}</a>
-            {% else %}
-                <a href="{{ filter_url }}component[]={{ item.pk }}"><input type="checkbox">{{ item.name }}</a>
-            {% endif %}
-            <br>
-        {% endfor %}
         <input type="submit" value="Search">
     </form>
     </div>
