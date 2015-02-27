@@ -32,6 +32,7 @@ def menu_items(request, menu_id):
 def filter_dishes(request):
     f = Filter(request.GET)
     ingredients = Ingredient.objects.all()
+    ingredients = Ingredient.objects.order_by('name').all()
     dish_items = Dish.objects.all()
     request_data = {}
     if f.is_valid():
@@ -41,22 +42,17 @@ def filter_dishes(request):
         max_value = f.cleaned_data['max']
         if name:
             dish_items = dish_items.filter(name__icontains=name)
-            request_data['name'] = name
         if min_value:
             dish_items = dish_items.filter(price__gte=min_value)
-            request_data['min'] = min_value
         if max_value:
             dish_items = dish_items.filter(price__lte=max_value)
-            request_data['max'] = max_value
         if components:
             for item in components:
                 dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
             dish_items.all()
-            request_data['ingredients'] = [int(item) for item in components]
     filter_urls = []
     for item in ingredients:
-        filter_urls.append(build_filter_url(item.pk, request_data))
-    filter_urls.reverse()
+        filter_urls.append({'title': item.name, 'url': build_filter_url(item.pk, f.cleaned_data)})
     return render_to_response('filter.html', {'f': f, 'menu_items': dish_items, 'ing': ingredients, 'filter_urls': filter_urls,})
 
 
@@ -69,8 +65,9 @@ def build_filter_url(component_id, request_data):
     """
     filter_url = '/dish/filter?'
     components = request_data.get('ingredients', [])
+    components = [int(i) for i in components]
     keys = (set(request_data.keys())-set(['ingredients']))
-    result = [key + '=' + str(request_data[key]) for key in keys]
+    result = [key + '=' + str(request_data[key]) for key in keys if request_data[key]]
     components_cleaned = (set(components) ^ set([component_id]))
     result.extend(['ingredients=' + str(item) for item in components_cleaned])
 

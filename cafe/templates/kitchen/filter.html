@@ -6,8 +6,8 @@
         <input type="submit" value="Search">
     </form>
     <ul>
-    {% for item in ing %}
-         <a href="{{ filter_urls.pop }}"><input type="checkbox"  >{{ item.name }}</a>
+    {% for item in filter_urls %}
+         <a href="{{ item.url }}"><input type="checkbox"  >{{ item.title}}</a>
          </br>
     {% endfor %}
     </ul>
