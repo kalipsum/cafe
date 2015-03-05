@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from kitchen.models import Menu, Dish, DishComponent, Ingredient
+from kitchen.models import Menu, Dish, DishComponent, Ingredient, Basket
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.http import *
 from django.db.models import Q
 from kitchen.forms import Filter
+from functools import reduce
+import operator
 # Create your views here.
 
 def menu(request):
@@ -34,7 +36,7 @@ def filter_dishes(request):
     ingredients = Ingredient.objects.all()
     ingredients = Ingredient.objects.order_by('name').all()
     dish_items = Dish.objects.all()
-    request_data = {}
+    components_criteria = []
     if f.is_valid():
         name = f.cleaned_data['name']
         components = f.cleaned_data['ingredients']
@@ -50,10 +52,21 @@ def filter_dishes(request):
             for item in components:
                 dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
             dish_items.all()
+            for item in components:
+                components_criteria.append(Q(dishcomponent__ingredient__pk=item))
+            dish_items = dish_items.filter(reduce(operator.and_, components_criteria))
+            #components_criteria = Q()
+            #for item in components:
+             #   components_criteria.add(Q(dishcomponent__ingredient__pk=item), Q.AND)
+            #dish_items = dish_items.filter(components_criteria)
+        dish_items.all()
     filter_urls = []
+    comp = []
     for item in ingredients:
+        if str(item.pk) in components:
+            comp.append(item.name)
         filter_urls.append({'title': item.name, 'url': build_filter_url(item.pk, f.cleaned_data)})
-    return render_to_response('filter.html', {'f': f, 'menu_items': dish_items, 'ing': ingredients, 'filter_urls': filter_urls,})
+    return render_to_response('filter.html', {'f': f, 'menu_items': dish_items, 'ing': ingredients, 'filter_urls': filter_urls,'comp':comp})
 
 
 def build_filter_url(component_id, request_data):
@@ -72,3 +85,37 @@ def build_filter_url(component_id, request_data):
     result.extend(['ingredients=' + str(item) for item in components_cleaned])
 
     return filter_url + '&'.join(result)
+
+
+def basket(request):
+    data = request.GET
+    basket_items = Basket.objects.all()
+    if 'remove' in request.GET:
+        Basket.objects.filter(pk=data['remove']).delete()
+    total_price = 0
+    for item in basket_items:
+        total_price += item.total
+    return render_to_response('basket.html', {'basket': basket_items,'total': total_price})
+
+
+def order(request):
+    return render_to_response('order.html')
+
+
+def basket_add(request):
+    dish_items = Dish.objects.all()
+    if request.method == 'GET':
+        data = request.GET
+        item_name = Dish.objects.get(pk=int(data['item']))
+        dish_added = Basket.objects.filter(name=item_name.name).exists()
+        if dish_added:
+            item = Basket.objects.get(name=item_name.name)
+            item.quantity += int(data['quantity'])
+            item.total = item.price*item.quantity
+            item.save()
+        else:
+            total_price = item_name.price*int(data['quantity'])
+            basket_item = Basket(name=item_name.name, price=item_name.price, quantity=int(data['quantity']), total=total_price,)
+            basket_item.save()
+    return render_to_response('basket.html')
+

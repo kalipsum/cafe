@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block scripts %}
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static "js/menu.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="block_cont">
+    {% if basket %}
+    <table id="basket_table">
+    <tr >
+        <th id="header">Name</th>
+        <th id="header">Price</th>
+        <th id="header">Quantity</th>
+        <th id="header" colspan="2">Total</th>
+    </tr>
+    {% for item in basket %}
+    <tr class="">
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total }}</td>
+        <td><a href="/basket?remove={{ item.pk }}">remove</a></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3"></td>
+        <td>Total:{{ total }}</td>
+    </tr>
+    </table>
+    {% else %}
+    <h2>Your basket is empty</h2>
+    {% endif %}
+    </div>
+{% endblock %}

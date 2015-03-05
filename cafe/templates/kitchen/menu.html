@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block scripts %}
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static "js/menu.js" %}"></script>
+{% endblock %}
 {% block content %}
     {% block filter %}
     {% endblock %}
@@ -10,9 +17,16 @@
             <tr>
                 <td id="cell1">
                     <li style="list-style: none;">{{ m.name }}</li>
+                    <br>
+                    (price:{{ m.price }})
                 </td>
                 <td id="cell2">
                     <img id="img" src="{{ m.image.url }}" style="width:128px;height:128px">
+                </td>
+                <td id="bucket_cell">
+                        <input type="hidden" value="{{ m.pk }}" id="menu-item{{ m.pk }}" >
+                        <label>Quantity</label><input type="text" id="quantity{{ m.pk }}" value="1" class="edit">
+                        <button onclick="basket_add({{ m.pk }})">Add to basket</button>
                 </td>
              </tr>
              <tr>
@@ -24,7 +38,7 @@
              <tr>
                 <td></td>
                 <td id="cell3">
-                    <p>Price: {{ m.price }}</p>
+
                 </td>
              </tr>
         {% endfor %}

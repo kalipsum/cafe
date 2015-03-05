@@ -31,7 +31,13 @@ html {
     margin-right: 20px;
 
 }
+#bucket_cell{
+    text-align:center;
+}
 
+.edit{
+    width:15px;
+}
 #cell1{
     width:400px;
     font-size: 25px;
@@ -153,4 +159,21 @@ html {
     width:32px;
     margin-top: -200px;
     margin-left:90%;
+}
+#basket_table{
+    width: 100%;
+}
+#basket_table td, #basket_table th {
+    font-size: 1em;
+    border: 1px solid darkolivegreen;
+    padding: 3px 7px 2px 7px;
+}
+
+#basket_table th {
+    font-size: 1.1em;
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    background-color: darkolivegreen;
+    color: #ffffff;
 }

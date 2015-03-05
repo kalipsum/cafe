@@ -7,7 +7,11 @@
     </form>
     <ul>
     {% for item in filter_urls %}
-         <a href="{{ item.url }}"><input type="checkbox"  >{{ item.title}}</a>
+        {% if item.title in comp %}
+            <a href="{{ item.url }}"><input type="checkbox" checked="checked" >{{ item.title}}</a>
+        {% else %}
+            <a href="{{ item.url }}"><input type="checkbox"  >{{ item.title}}</a>
+        {% endif %}
          </br>
     {% endfor %}
     </ul>
