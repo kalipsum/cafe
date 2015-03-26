@@ -14,13 +14,13 @@ from register.forms import RegistrationForm, LoginForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from kitchen.models import Menu, Dish
-
+from orders.models import Customer,Basket
 
 menu_list = Menu.objects.all()
 
 
 def home(request):
-    return render_to_response('home.html', {'menu_list': menu_list})
+    return render_to_response('home.html', {'menu_list': menu_list,'user':request.user})
 
 
 def login(request):
@@ -30,9 +30,9 @@ def login(request):
 
 
 def auth_v(request):
-    username=request.POST.get('username','')
-    password=request.POST.get('password','')
-    user=auth.authenticate(username=username,password=password)
+    username = request.POST.get('username','')
+    password = request.POST.get('password','')
+    user = auth.authenticate(username=username,password=password)
     if user is not None:
         auth.login(request,user)
         return HttpResponseRedirect('/accounts/loggedin')
@@ -41,6 +41,10 @@ def auth_v(request):
 
 
 def loggedin(request):
+    if 'id' in request.COOKIES:
+        customer = Customer.objects.get(user_hash=request.COOKIES['id'])
+        customer.user = request.user
+        customer.save()
     return render_to_response('loggedin.html',{'fullname':request.user.username})
 
 
@@ -50,6 +54,9 @@ def invalid_l(request):
 
 def logout(request):
     auth.logout(request)
+    customer = Customer.objects.get(user_hash=request.COOKIES['id'])
+    customer.user = None
+    customer.save()
     return render_to_response('home.html')
 
 
@@ -67,16 +74,34 @@ def register(request):
     registrationForm = RegistrationForm(request.POST)
     if registrationForm.is_valid():
         user = registrationForm.save(commit=False)
+        name = user.username
+        email = registrationForm.cleaned_data['email']
+        city = registrationForm.cleaned_data['city']
+        street = registrationForm.cleaned_data['street']
+        house = registrationForm.cleaned_data['house']
+        flat = registrationForm.cleaned_data['flat']
+        first_name = registrationForm.cleaned_data['first_name']
+        last_name = registrationForm.cleaned_data['last_name']
+        phone_number = registrationForm.cleaned_data['phone_number']
+
         user.is_active = False
         user.save()
         profile = UserProfile(user=user,
                               activation_key=hashlib.sha224((user.username).encode('utf8')).hexdigest()[:40],
                               key_expires=datetime.datetime.today() + datetime.timedelta(days=2),
-
+        )
+        profile_info = UserInfo(username=name,
+                                email=email,
+                                city=city,
+                                street=street,
+                                house=house,
+                                flat=flat,
+                                first_name=first_name,
+                                last_name=last_name,
+                                phone_number=phone_number,
         )
         profile.save()
-
-
+        profile_info .save()
         host = request.META['SERVER_NAME']
         email_subject = 'Welcome!'
         email_body = """Thanks for signing up.  To activate your account, follow this link: http://%(host)s/accounts/confirm/%(hash)s"""

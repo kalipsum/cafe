@@ -55,7 +55,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'register',
-    'kitchen'
+    'kitchen',
+    'orders',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,14 +107,10 @@ DEFAULT_FROM_EMAIL = 'nmyname@gmail.com'
 # static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-)
-
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
      os.path.join(BASE_DIR, 'cafe', 'static'),

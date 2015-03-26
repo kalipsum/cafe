@@ -14,13 +14,14 @@
     <title></title>
 </head>
 <body>
-
+<a href="/accounts/logout">Logout</a>
 <div class ="block2">
 
 <table>
     <tr>
         <td>
             <a href="/accounts/login" id="login">login</a>
+            <input type="hidden" value="{{ user }}"
         </td>
     </tr>
     <tr>
@@ -40,7 +41,7 @@
             </ul>
         </li>
         <li><a href="/dish/filter">Search</a></li>
-        <li><a href="/order">Order</a></li>
+        <li><a href="/orders">Order</a></li>
         </ul>
         </td>
     </tr>
@@ -49,10 +50,7 @@
 </div>
 <div class="block1">
 {% block content %}
-
 {% endblock %}
 </div>
-
-
 </body>
 </html>

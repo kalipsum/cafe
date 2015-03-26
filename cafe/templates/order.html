@@ -1,3 +1,33 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block content %}
+    <div class="block_cont">
+
+        {% for item in items %}
+        <h1> Order №{{ item.order.pk }}</h1>
+        <h5>Date:{{ item.order.date }}</h5>
+        <h3>Order status: {{ item.order.status_name.status_name }}</h3>
+        </br>
+        <table id="basket_table">
+        <tr >
+            <th id="header">Name</th>
+            <th id="header">Price</th>
+            <th id="header">Quantity</th>
+            <th id="header" colspan="2">Total</th>
+        </tr>
+        {% for dish in item.dishes %}
+            <tr class="">
+                <td>{{ dish.dish.name }}</td>
+                <td>{{ dish.dish.price }}</td>
+                <td>{{ dish.quantity }}</td>
+                <td>{{ dish.total }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"></td>
+            <td>Total:{{ item.order.total }}</td>
+        </tr>
+        </table>
+        {% endfor %}
+    </div>
 {% endblock %}

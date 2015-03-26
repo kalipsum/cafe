@@ -41,10 +41,3 @@ class DishComponent(models.Model):
     dish = models.ForeignKey(Dish)
     ingredient = models.ForeignKey(Ingredient)
     weight = models.FloatField()
-
-
-class Basket(models.Model):
-    name = models.CharField(max_length=70)
-    price = models.FloatField()
-    quantity = models.IntegerField()
-    total = models.FloatField()

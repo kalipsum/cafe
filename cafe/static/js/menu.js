@@ -27,4 +27,5 @@ function basket_add(item_id){
 return false;
 }
 
-
+function Order(user){
+}

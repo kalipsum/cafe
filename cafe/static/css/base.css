@@ -38,6 +38,9 @@ html {
 .edit{
     width:15px;
 }
+#order_panel{
+    visibility: hidden;
+}
 #cell1{
     width:400px;
     font-size: 25px;

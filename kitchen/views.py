@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
-from kitchen.models import Menu, Dish, DishComponent, Ingredient, Basket
+from kitchen.models import Menu, Dish, DishComponent, Ingredient
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.http import *
@@ -9,6 +9,7 @@ from kitchen.forms import Filter
 from functools import reduce
 import operator
 # Create your views here.
+
 
 def menu(request):
     dish_list = Dish.objects.all()
@@ -85,37 +86,4 @@ def build_filter_url(component_id, request_data):
     result.extend(['ingredients=' + str(item) for item in components_cleaned])
 
     return filter_url + '&'.join(result)
-
-
-def basket(request):
-    data = request.GET
-    basket_items = Basket.objects.all()
-    if 'remove' in request.GET:
-        Basket.objects.filter(pk=data['remove']).delete()
-    total_price = 0
-    for item in basket_items:
-        total_price += item.total
-    return render_to_response('basket.html', {'basket': basket_items,'total': total_price})
-
-
-def order(request):
-    return render_to_response('order.html')
-
-
-def basket_add(request):
-    dish_items = Dish.objects.all()
-    if request.method == 'GET':
-        data = request.GET
-        item_name = Dish.objects.get(pk=int(data['item']))
-        dish_added = Basket.objects.filter(name=item_name.name).exists()
-        if dish_added:
-            item = Basket.objects.get(name=item_name.name)
-            item.quantity += int(data['quantity'])
-            item.total = item.price*item.quantity
-            item.save()
-        else:
-            total_price = item_name.price*int(data['quantity'])
-            basket_item = Basket(name=item_name.name, price=item_name.price, quantity=int(data['quantity']), total=total_price,)
-            basket_item.save()
-    return render_to_response('basket.html')
 

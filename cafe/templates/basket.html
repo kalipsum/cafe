@@ -18,10 +18,10 @@
     </tr>
     {% for item in basket %}
     <tr class="">
-        <td>{{ item.name }}</td>
-        <td>{{ item.price }}</td>
+        <td>{{ item.dish.name }}</td>
+        <td>{{ item.dish.price }}</td>
         <td>{{ item.quantity }}</td>
-        <td>{{ item.total }}</td>
+        <td>{{ item.price }}</td>
         <td><a href="/basket?remove={{ item.pk }}">remove</a></td>
     </tr>
     {% endfor %}
@@ -30,8 +30,12 @@
         <td>Total:{{ total }}</td>
     </tr>
     </table>
+    <a href="make/orders">Order</a>
     {% else %}
     <h2>Your basket is empty</h2>
     {% endif %}
+
+    {{ item.user }}
     </div>
+
 {% endblock %}
