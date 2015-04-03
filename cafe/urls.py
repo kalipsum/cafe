@@ -15,7 +15,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from kitchen.views import menu_items, dish, filter_dishes
-from orders.views import order, basket, basket_add,orders
+from orders.views import order, basket, basket_add,orders, clean
 
 urlpatterns = patterns('',
     # Examples:
@@ -41,6 +41,7 @@ urlpatterns = patterns('',
     url(r'^orders/$', orders),
     url(r'^add/basket/$', basket_add),
     url(r'^basket/?.*$', basket),
+    url(r'^clean/basket/$', clean),
 )
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -17,6 +17,7 @@ def basket(request):
     basket_items = Basket.objects.all()
     if 'remove' in request.GET:
         Basket.objects.filter(pk=data['remove']).delete()
+        print('item removed')
     total = 0
     if 'id' in request.COOKIES:
         item = request.COOKIES['id']
@@ -25,7 +26,7 @@ def basket(request):
         else:
             basket_items = Basket.objects.filter(customer__user=request.user, order=None)
         for item in basket_items:
-            total+=item.price
+            total += item.price
     else:
         basket_items = []
     return render_to_response('basket.html', {'basket': basket_items,'total': total})
@@ -64,12 +65,21 @@ def orders(request):
     return render_to_response('order.html', {'items': items})
 
 
+def clean(request):
+    basket_items = Basket.objects.filter(customer__user_hash=request.COOKIES['id']).delete()
+    return render_to_response('basket.html', {'basket': basket_items})
+
+
 def basket_add(request):
     resp = HttpResponse()
     if 'id' in request.COOKIES:
         cookie_id = request.COOKIES['id']
-        customer_item = Customer.objects.get(user_hash=cookie_id,)
+        if request.user.is_anonymous():
+            customer_item = Customer.objects.get(user_hash=cookie_id)
+        else:
+            customer_item = Customer.objects.get(user_hash=cookie_id,user=request.user)
     else:
+        print('no cookie')
         cookie_id = md5(('customer' + str(time()) + str(random.random())).encode('utf8')).hexdigest()
         resp.set_cookie('id', cookie_id)
         if request.user.is_anonymous():
@@ -82,14 +92,18 @@ def basket_add(request):
         data = request.GET
         item_dish = Dish.objects.get(pk=int(data['item']))
         dish_added = Basket.objects.filter(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash).exists()
+        print(dish_added)
         if dish_added:
             item = Basket.objects.get(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash)
             price_item = item_dish.price
             item.quantity += int(data['quantity'])
             item.price = price_item*item.quantity
             item.save()
+            print('basket increased')
+            print(item.quantity)
         else:
             total_price = item_dish.price*int(data['quantity'])
             basket_item = Basket(dish=item_dish, quantity=int(data['quantity']), price=total_price, customer=customer_item,)
             basket_item.save()
+            print('basket added')
     return resp
