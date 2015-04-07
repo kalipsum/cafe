@@ -17,8 +17,7 @@ class OrderTests(TestCase):
         Dish.objects.create(name='ice-cream', price=1, image='some_src', menu=menu1, category=category)
         OrderStatus.objects.create(status_name='in progress')
 
-
-    def test_should_return_ok_response(self):
+    def test_should_return_200(self):
         params = {'item': '2', 'quantity': '2'}
         response = self.client.get('/add/basket/', params)
         self.assertEqual(response.status_code, 200)
@@ -28,11 +27,11 @@ class OrderTests(TestCase):
         response = self.client.get('/add/basket/', params)
         self.assertIn('id', response.client.cookies.keys())
 
-    def test_should_check_if_basket_object_created(self):
+    def test_adding_item_should_create_record_in_table(self):
         params = {'item': '2', 'quantity': '1'}
         response = self.client.get('/add/basket/', params)
-        dish = Dish.objects.get(pk=2)
-        result = Basket.objects.filter(dish=dish, quantity=1).exists()
+        dish = Dish.objects.get(pk=params['item'])
+        result = Basket.objects.filter(dish=dish, quantity=params['quantity']).exists()
         self.assertTrue(result)
 
     def test_gets_customer_if_cookies_are_set(self):
@@ -54,16 +53,17 @@ class OrderTests(TestCase):
         response = self.client.get('/add/basket/', params)
         other_params = {'item': '1', 'quantity': '8'}
         response = self.client.get('/add/basket/', other_params)
-        dish = Dish.objects.get(pk=1)
-        result = Basket.objects.filter(dish=dish,quantity=20).exists()
+        dish = Dish.objects.get(pk=params['item'])
+        result = Basket.objects.filter(dish=dish,quantity=int(params['quantity'])+int(other_params['quantity'])).exists()
         self.assertTrue(result)
 
     def test_should_remove_item_from_basket(self):
         params1 = {'item': '2', 'quantity': '10'}
         response = self.client.get('/add/basket/', params1)
-        delete_params = {'remove': 2}
+        item = 2
+        delete_params = {'remove': item}
         response = self.client.get('/basket/', delete_params)
-        result = Basket.objects.filter(pk=2, customer__user_hash=response.client.cookies['id'].value).exists()
+        result = Basket.objects.filter(pk=item, customer__user_hash=response.client.cookies['id'].value).exists()
         self.assertFalse(result)
 
     def test_if_order_was_created(self):

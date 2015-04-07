@@ -50,12 +50,13 @@ def filter_dishes(request):
         if max_value:
             dish_items = dish_items.filter(price__lte=max_value)
         if components:
+            print(components)
             for item in components:
                 dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
             dish_items.all()
-            for item in components:
-                components_criteria.append(Q(dishcomponent__ingredient__pk=item))
-            dish_items = dish_items.filter(reduce(operator.and_, components_criteria))
+          #  for item in components:
+           #     components_criteria.append(Q(dishcomponent__ingredient__pk=item))
+            #dish_items = dish_items.filter(reduce(operator.and_, components_criteria))
             #components_criteria = Q()
             #for item in components:
              #   components_criteria.add(Q(dishcomponent__ingredient__pk=item), Q.AND)

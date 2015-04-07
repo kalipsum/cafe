@@ -17,13 +17,17 @@ function loadPictures()
 }
 
 function basket_add(item_id){
-    var dish = document.getElementById("menu-item"+item_id.toString()).value
-    var q = document.getElementById("quantity"+item_id.toString()).value
-    $.ajax({
+    var dish = parseInt(document.getElementById("menu-item"+item_id.toString()).value)
+    var q = parseInt(document.getElementById("quantity"+item_id.toString()).value)
+    if (q>0){$.ajax({
     type: "GET",
     url: "/add/basket",
     data: { item:dish, quantity: q }
-    })
+    })}
+    else{
+        alert('quantity should be >0')
+    }
+
 return false;
 }
 
