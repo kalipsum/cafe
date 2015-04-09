@@ -15,7 +15,7 @@ def basket(request):
     data = request.GET
     user = request.user
     basket_items = Basket.objects.all()
-    if 'remove' in request.GET and Basket.objects.filter(pk=data['remove']):
+    if 'remove' in request.GET and Basket.objects.filter(pk=data['remove']).exists():
         Basket.objects.filter(pk=data['remove']).delete()
     total = 0
     if 'id' in request.COOKIES:
@@ -28,7 +28,7 @@ def basket(request):
             total += item.price
     else:
         basket_items = []
-    return render_to_response('basket.html', {'basket': basket_items,'total': total})
+    return render_to_response('basket.html', {'basket': basket_items, 'total': total})
 
 
 def order(request):
@@ -76,7 +76,7 @@ def basket_add(request):
         if request.user.is_anonymous():
             customer_item = Customer.objects.get(user_hash=cookie_id)
         else:
-            customer_item = Customer.objects.get(user_hash=cookie_id,user=request.user)
+            customer_item = Customer.objects.get(user_hash=cookie_id, user=request.user)
     else:
         cookie_id = md5(('customer' + str(time()) + str(random.random())).encode('utf8')).hexdigest()
         resp.set_cookie('id', cookie_id)
@@ -88,7 +88,10 @@ def basket_add(request):
     dish_items = Dish.objects.all()
     if request.method == 'GET':
         data = request.GET
-        item_dish = Dish.objects.get(pk=int(data['item']))
+        if Dish.objects.filter(pk=int(data['item'])).exists() and int(data['quantity']) > 0:
+            item_dish = Dish.objects.get(pk=int(data['item']))
+        else:
+            return resp
         dish_added = Basket.objects.filter(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash).exists()
         if dish_added:
             item = Basket.objects.get(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash)
