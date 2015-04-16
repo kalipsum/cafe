@@ -1,13 +1,7 @@
-from django.shortcuts import render
 from django.shortcuts import render_to_response
-from kitchen.models import Menu, Dish, DishComponent, Ingredient
-from django.core.context_processors import csrf
-from django.http import HttpResponse
-from django.http import *
-from django.db.models import Q
-from kitchen.forms import Filter
-from functools import reduce
-import operator
+from cafe.pkg.kitchen.models import Menu, Dish, DishComponent, Ingredient
+from cafe.pkg.kitchen.forms import Filter
+
 # Create your views here.
 
 

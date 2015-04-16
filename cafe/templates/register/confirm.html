@@ -3,7 +3,7 @@
 {% if success %}
     Your account has been activated and is now ready for use.  <a href='{% url 'login' %}'>Login here</a>
 {% else %}{% if expired %}
-    Oops!  You waited too long!  <a href='{% url 'register' %}'>Return to the login page and try again</a>
+    Oops!  You waited too long!  <a href='{% url 'cafe.pkg.register' %}'>Return to the login page and try again</a>
 {% else %}{% if has_account %}
     You already have an account!  <a href="{% url 'list_questions' %}">Hop in the action</a>
 {% endif %}

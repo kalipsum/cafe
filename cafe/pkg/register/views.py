@@ -1,20 +1,19 @@
+import hashlib
+import datetime
 
 from django.contrib import auth
-from django.core.context_processors import csrf
+
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
-from register.forms import *
-from register.models import *
-from django.template import RequestContext
 from django.core.mail import send_mail
-import hashlib, datetime, random
-from django.utils import timezone
-from register.forms import RegistrationForm, LoginForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
-from kitchen.models import Menu, Dish
-from orders.models import Customer,Basket
+from cafe.pkg.register.models import *
+from cafe.pkg.register.forms import RegistrationForm
+from cafe.pkg.kitchen.models import Menu
+from cafe.pkg.orders.models import *
+
 
 menu_list = Menu.objects.all()
 

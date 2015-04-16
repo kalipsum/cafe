@@ -1,10 +1,11 @@
+import datetime
+
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.test.client import Client
-from kitchen.models import Dish, Menu, Category
-from orders.models import Basket, Customer, Order,OrderStatus
-from django.shortcuts import HttpResponse
-import datetime
+from cafe.pkg.kitchen.models import Dish, Menu, Category
+from cafe.pkg.orders.models import Order, OrderStatus, Customer, Basket
+
+
 # Create your tests here.
 
 

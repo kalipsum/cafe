@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from kitchen.models import Dish
+from cafe.pkg.kitchen.models import Dish
 
 
 class OrderStatus(models.Model):

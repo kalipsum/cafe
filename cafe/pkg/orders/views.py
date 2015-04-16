@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from orders.models import *
-from kitchen.models import Dish
 import datetime
 from hashlib import md5
 from time import time
 import random
-
-from register.models import UserProfile
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from cafe.pkg.orders.models import *
+from cafe.pkg.kitchen.models import Dish
 
 
 def basket(request):

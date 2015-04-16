@@ -1,6 +1,6 @@
 from django import forms
-from kitchen.models import Ingredient
-from django.utils.safestring import mark_safe
+from cafe.pkg.kitchen.models import Ingredient
+
 
 ingredient = Ingredient.objects.all()
 a = [(item.pk, item.name, ) for item in ingredient]

@@ -38,7 +38,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 )
 
-TEMPLATE_DIRS=(
+TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'cafe', 'templates', 'kitchen'),
     os.path.join(BASE_DIR, 'cafe', 'templates', 'register'),
     os.path.join(BASE_DIR, 'cafe', 'templates'),
@@ -54,9 +54,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'register',
-    'kitchen',
-    'orders',
+    'cafe.pkg.kitchen',
+    'cafe.pkg.register',
+    'cafe.pkg.orders',
 )
 
 MIDDLEWARE_CLASSES = (

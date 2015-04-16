@@ -1,7 +1,8 @@
-from django.test import TestCase
-from kitchen.views import build_filter_url
-from kitchen.models import Dish,Menu,Category,DishComponent,Ingredient
 import datetime
+from django.test import TestCase
+from cafe.pkg.kitchen.views import build_filter_url
+from cafe.pkg.kitchen.models import Dish,Menu,Category,DishComponent,Ingredient
+
 
 # Create your tests here.
 
