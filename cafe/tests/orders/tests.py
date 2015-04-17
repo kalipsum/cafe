@@ -131,19 +131,3 @@ class OrderTests(TestCase):
         response = self.client.get('/basket/', delete_params)
         result = Basket.objects.all().count()
         self.assertEquals(result, res)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
