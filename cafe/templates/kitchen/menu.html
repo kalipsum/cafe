@@ -26,7 +26,11 @@
                 <td id="bucket_cell">
                         <input type="hidden" value="{{ m.pk }}" id="menu-item{{ m.pk }}" >
                         <label>Quantity</label><input type="text" id="quantity{{ m.pk }}" value="1" class="edit">
-                        <button onclick="basket_add({{ m.pk }})">Add to basket</button>
+                        {% if  m.cnt_in_store == 0 %}
+                            <label>currently unavailable</label>
+                        {% else %}
+                            <button onclick="basket_add({{ m.pk }})">Add to basket</button>
+                        {% endif %}
                 </td>
              </tr>
              <tr>

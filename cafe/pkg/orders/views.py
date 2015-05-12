@@ -98,6 +98,9 @@ def basket_add(request):
             item.save()
         else:
             total_price = item_dish.price*int(data['quantity'])
-            basket_item = Basket(dish=item_dish, quantity=int(data['quantity']), price=total_price, customer=customer_item,)
+            if item_dish.cnt_in_store - int(data['quantity']) >= 0:
+                basket_item = Basket(dish=item_dish, quantity=int(data['quantity']), price=total_price, customer=customer_item,)
+            item_dish.cnt_in_store -= int(data['quantity'])
+            item_dish.save()
             basket_item.save()
     return resp
