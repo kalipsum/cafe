@@ -13,7 +13,7 @@ def basket(request):
     user = request.user
     basket_items = Basket.objects.all()
     if 'remove' in request.GET and Basket.objects.filter(pk=data['remove']).exists():
-        element = Basket.objects.filter(pk=data['remove'])
+        element = Basket.objects.get(pk=data['remove'])
         element.dish.cnt_in_store += element.quantity
         element.dish.count.count = element.dish.cnt_in_store
         element.dish.save()
@@ -103,9 +103,8 @@ def basket_add(request):
         dish_added = Basket.objects.filter(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash).exists()
         if dish_added:
             item = Basket.objects.get(dish=item_dish, order=None, customer__user_hash=customer_item.user_hash)
-            price_item = item_dish.price
             item.quantity += int(data['quantity'])
-            item.price = price_item*item.quantity
+            item.price = item_dish.price*item.quantity
             item.save()
             item_dish.cnt_in_store -= int(data['quantity'])
             item_dish.save()
@@ -113,7 +112,7 @@ def basket_add(request):
             total_price = item_dish.price*int(data['quantity'])
             if item_dish.cnt_in_store - int(data['quantity']) >= 0:
                 basket_item = Basket(dish=item_dish, quantity=int(data['quantity']), price=total_price, customer=customer_item,)
-            item_dish.cnt_in_store -= int(data['quantity'])
-            item_dish.save()
-            basket_item.save()
+                item_dish.cnt_in_store -= int(data['quantity'])
+                item_dish.save()
+                basket_item.save()
     return resp

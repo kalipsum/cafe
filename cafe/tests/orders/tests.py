@@ -2,7 +2,7 @@ import datetime
 
 from django.test import TestCase
 from django.contrib.auth.models import User
-from cafe.pkg.kitchen.models import Dish, Menu, Category
+from cafe.pkg.kitchen.models import Dish, Menu, Category, Count
 from cafe.pkg.orders.models import Order, OrderStatus, Customer, Basket
 
 
@@ -13,15 +13,20 @@ class OrderTests(TestCase):
     def setUp(self):
         menu1 = Menu.objects.create(name="day", date=datetime.datetime.now())
         category = Category.objects.create(name='starters')
-        dish1 = Dish.objects.create(name='pizza', price=3, image='some_src', menu=menu1, category=category)
-        dish2 = Dish.objects.create(name='potato', price=3, image='some_src', menu=menu1, category=category)
-        dish3 = Dish.objects.create(name='ice-cream', price=1, image='some_src', menu=menu1, category=category)
+        cnt1 = Count.objects.create(count=200)
+        cnt2 = Count.objects.create(count=300)
+        dish1 = Dish.objects.create(name='pizza', price=3, image='some_src', menu=menu1, category=category,
+                                    cnt_in_store=200, count=cnt1)
+        dish2 = Dish.objects.create(name='potato', price=3, image='some_src', menu=menu1, category=category,
+                                    cnt_in_store=300, count=cnt2)
+        dish3 = Dish.objects.create(name='ice-cream', price=1, image='some_src', menu=menu1, category=category,
+                                    cnt_in_store=300, count=cnt2)
         OrderStatus.objects.create(status_name='in progress')
         OrderStatus.objects.create(status_name='delivery')
         OrderStatus.objects.create(status_name='closed')
         user1 = User.objects.create(username='user1', password='password')
         customer = Customer.objects.create(user=user1, user_hash='some_hash')
-        Basket.objects.create(dish=dish2, quantity=2, price=20, customer=customer)
+        Basket.objects.create(dish=dish1, quantity=2, price=20, customer=customer)
         Basket.objects.create(dish=dish2, quantity=3, price=10, customer=customer)
         Basket.objects.create(dish=dish3, quantity=1, price=30, customer=customer)
 
@@ -62,7 +67,10 @@ class OrderTests(TestCase):
         other_params = {'item': '1', 'quantity': '8'}
         response = self.client.get('/add/basket/', other_params)
         dish = Dish.objects.get(pk=params['item'])
-        result = Basket.objects.filter(dish=dish,quantity=int(params['quantity'])+int(other_params['quantity'])).exists()
+        for item in Basket.objects.all():
+            print(item.dish)
+            print(item.quantity)
+        result = Basket.objects.filter(dish=dish, quantity=int(params['quantity'])+int(other_params['quantity'])).exists()
         self.assertTrue(result)
 
     def test_should_have_unique_items(self):
@@ -71,7 +79,8 @@ class OrderTests(TestCase):
         other_params = {'item': '1', 'quantity': '8'}
         response = self.client.get('/add/basket/', other_params)
         dish = Dish.objects.get(pk=params['item'])
-        result = Basket.objects.filter(dish=dish).count()
+        result = Basket.objects.filter(dish=dish, customer__user_hash=response.client.cookies['id'].value).count()
+
         self.assertEquals(result, 1)
 
     def test_should_remove_item_from_basket(self):
@@ -115,7 +124,7 @@ class OrderTests(TestCase):
         self.assertEquals(response.context['total'], 40)
 
     def test_should_return_user_basket(self):
-        params = {'item': '1', 'quantity': '12'}
+        params = {'item': '2', 'quantity': '12'}
         response = self.client.get('/add/basket/', params)
         a = response.client.cookies
         dish = Dish.objects.get(pk=params['item'])
@@ -131,3 +140,13 @@ class OrderTests(TestCase):
         response = self.client.get('/basket/', delete_params)
         result = Basket.objects.all().count()
         self.assertEquals(result, res)
+
+    def test_should_clean_basket(self):
+        params1 = {'item': '2', 'quantity': '10'}
+        response = self.client.get('/add/basket/', params1)
+        params2 = {'item': '3', 'quantity': '10'}
+        response = self.client.get('/add/basket/', params2)
+        response = self.client.get('/clean/basket/')
+        a = response.client.cookies
+        basket_items = Basket.objects.filter(customer__user_hash=a['id'].value).count
+        self.assertTrue(basket_items, 0)
