@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from cafe.pkg import orders
 admin.autodiscover()
 from cafe.pkg.register.views import home
 from cafe.pkg.register.views import logout
@@ -12,13 +11,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from cafe.pkg.kitchen.views import menu_items, dish, filter_dishes
-from cafe.pkg.orders.views import order, basket, basket_add, clean
+from cafe.pkg.orders.views import order, basket, basket_add, clean, orders
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'Cafeshka.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', home),
     url(r'^accounts/login/', login, name='loginN'),

@@ -18,6 +18,10 @@ class Category(models.Model):
         return self.name
 
 
+class Count(models.Model):
+    count = models.IntegerField()
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=70)
     price = models.FloatField()
@@ -26,27 +30,30 @@ class Dish(models.Model):
     menu = models.ForeignKey(Menu)
     category = models.ForeignKey(Category)
     cnt_in_store = models.IntegerField()
+    count = models.ForeignKey(Count)
 
     def __str__(self):
         return self.name
 
 
-def add_dishes(self, dish_id, count, **kwargs):
-        dish_item = Dish.objects.get(pk=dish_id)
-        dish_components = DishComponent.objects.filter(dish=dish_id)
-        luck = False
+def add_dishes(sender, instance, **kwargs):
+    dish_item = Dish.objects.get(pk=instance.pk)
+    dish_components = DishComponent.objects.filter(dish=dish_item)
+    ing = False
+    if instance.count.count < instance.cnt_in_store:
         for item in dish_components:
-            weight = dish_components.weight*count
-            if dish_components.ingredient.weight_in_store - weight >= 0:
-                dish_components.ingredient.weight_in_store -= weight
-                dish_components.ingredient.weight_in_store.save()
+            weight = item.weight*(instance.cnt_in_store - instance.count.count)
+            if item.ingredient.weight_in_store - weight >= 0:
+                item.ingredient.weight_in_store -= weight
+                item.ingredient.save()
             else:
-                luck = True
+                ing = True
                 break
-        if luck:
-            add_dishes(self, dish_id, count-1)
-        else:
-            dish_item.cnt_in_store += count
+        if ing:
+            return('Not enought ingredients')
+    instance.count.count = instance.cnt_in_store
+    instance.count.save()
+
 
 post_save.connect(add_dishes, sender=Dish, dispatch_uid="update_ingredients")
 

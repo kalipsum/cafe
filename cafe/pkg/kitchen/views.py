@@ -44,7 +44,6 @@ def filter_dishes(request):
         if max_value:
             dish_items = dish_items.filter(price__lte=max_value)
         if components:
-            print(components)
             for item in components:
                 dish_items = dish_items.filter(dishcomponent__ingredient__pk=item)
             dish_items.all()

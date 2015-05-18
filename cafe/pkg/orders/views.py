@@ -13,7 +13,12 @@ def basket(request):
     user = request.user
     basket_items = Basket.objects.all()
     if 'remove' in request.GET and Basket.objects.filter(pk=data['remove']).exists():
-        Basket.objects.filter(pk=data['remove']).delete()
+        element = Basket.objects.filter(pk=data['remove'])
+        element.dish.cnt_in_store += element.quantity
+        element.dish.count.count = element.dish.cnt_in_store
+        element.dish.save()
+        element.dish.count.save()
+        element.delete()
     total = 0
     if 'id' in request.COOKIES:
         item = request.COOKIES['id']
@@ -62,7 +67,13 @@ def orders(request):
 
 
 def clean(request):
-    basket_items = Basket.objects.filter(customer__user_hash=request.COOKIES['id']).delete()
+    basket_items = Basket.objects.filter(customer__user_hash=request.COOKIES['id'])
+    for item in basket_items:
+        item.dish.cnt_in_store += item.quantity
+        item.dish.count.count = item.dish.cnt_in_store
+        item.dish.save()
+        item.dish.count.save()
+    basket_items.delete()
     return render_to_response('basket.html', {'basket': basket_items})
 
 
@@ -96,6 +107,8 @@ def basket_add(request):
             item.quantity += int(data['quantity'])
             item.price = price_item*item.quantity
             item.save()
+            item_dish.cnt_in_store -= int(data['quantity'])
+            item_dish.save()
         else:
             total_price = item_dish.price*int(data['quantity'])
             if item_dish.cnt_in_store - int(data['quantity']) >= 0:
